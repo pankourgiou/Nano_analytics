@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NanoAnalytics — Global Nanomaterials & Nanotechnology Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ══════════════════════════════════════════
+   CORE DESIGN SYSTEM
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root {
+  --bg:       #0e1525;
+  --bg-panel: #162035;
+  --bg-card:  #1c2a42;
+  --bg-hover: #233250;
+  --border:   rgba(255,255,255,0.14);
+  --border-hi:rgba(255,255,255,0.28);
+  --text:     #f2f6ff;
+  --muted:    #9dadc8;
+  --faint:    #5c6e90;
+
+  --cyan:     #22dfff;
+  --cyan-dim: rgba(34,223,255,0.18);
+  --green:    #22d98a;
+  --green-dim:rgba(34,217,138,0.18);
+  --amber:    #fbbf24;
+  --amber-dim:rgba(251,191,36,0.18);
+  --rose:     #fb5271;
+  --rose-dim: rgba(251,82,113,0.18);
+  --violet:   #a78bfa;
+  --violet-dim:rgba(167,139,250,0.18);
+  --slate:    #7e95b8;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 2px; }
+
+/* ══════════════════════════════════════════
+   MASTHEAD
+══════════════════════════════════════════ */
+.masthead {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(14,21,37,0.97);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 2rem;
+  padding: 0 2.5rem; height: 56px;
+}
+
+.masthead-brand {
+  display: flex; align-items: baseline; gap: 0.6rem; flex-shrink: 0;
+}
+.brand-mark {
+  font-family: var(--font-display);
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--text); letter-spacing: 0.02em;
+}
+.brand-mark span { color: var(--cyan); }
+.brand-version {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.15rem 0.5rem; border-radius: 2px;
+  letter-spacing: 0.08em;
+}
+
+.masthead-nav {
+  display: flex; gap: 0; flex: 1;
+  border-left: 1px solid var(--border);
+  margin-left: 0.5rem;
+}
+.nav-item {
+  font-family: var(--font-mono);
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0 1.25rem; height: 56px;
+  display: flex; align-items: center;
+  color: var(--muted); text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: all 0.15s; cursor: pointer;
+  white-space: nowrap;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.nav-item.active { color: var(--cyan); }
+
+.masthead-meta {
+  display: flex; align-items: center; gap: 1.5rem; margin-left: auto; flex-shrink: 0;
+}
+.live-badge {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-family: var(--font-mono); font-size: 0.72rem;
+  letter-spacing: 0.1em; color: var(--green);
+}
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+  animation: livePulse 2s ease-in-out infinite;
+}
+.timestamp {
+  font-family: var(--font-mono); font-size: 0.72rem;
+  color: var(--muted); letter-spacing: 0.06em;
+}
+
+/* ══════════════════════════════════════════
+   HERO / OVERVIEW BAR
+══════════════════════════════════════════ */
+.overview-bar {
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 2.5rem 0;
+}
+
+.overview-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+}
+
+.overview-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900; line-height: 1.1;
+  color: var(--text);
+  max-width: 700px;
+}
+.overview-title em {
+  font-style: italic; color: var(--cyan);
+}
+
+.overview-meta {
+  font-family: var(--font-mono);
+  font-size: 0.76rem; color: var(--muted);
+  line-height: 1.9; text-align: right;
+}
+
+/* KPI ROW */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-top: 1px solid var(--border);
+}
+@media(max-width:1100px){.kpi-row{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px) {.kpi-row{grid-template-columns:repeat(2,1fr);}}
+
+.kpi {
+  padding: 1.5rem;
+  border-right: 1px solid var(--border);
+  transition: background 0.15s;
+  cursor: default;
+}
+.kpi:last-child { border-right: none; }
+.kpi:hover { background: rgba(255,255,255,0.03); }
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.6rem;
+}
+.kpi-value {
+  font-family: var(--font-display);
+  font-size: 1.9rem; font-weight: 700; line-height: 1;
+  color: var(--text); margin-bottom: 0.4rem;
+}
+.kpi-delta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem; letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 0.3rem;
+}
+.delta-up   { color: var(--green); }
+.delta-down { color: var(--rose); }
+.kpi-sub {
+  font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem;
+}
+
+/* ══════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════ */
+.main-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 56px - 220px);
+}
+@media(max-width:900px){.main-content{grid-template-columns:1fr;}}
+
+/* SIDEBAR */
+.sidebar {
+  border-right: 1px solid var(--border);
+  padding: 1.5rem;
+  position: sticky; top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  background: var(--bg-panel);
+}
+
+.sidebar-section { margin-bottom: 2rem; }
+.sidebar-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+}
+
+.filter-group { margin-bottom: 0.75rem; }
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem; color: var(--muted); margin-bottom: 0.4rem;
+  display: block; letter-spacing: 0.06em;
+}
+.filter-select {
+  width: 100%; background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text); font-family: var(--font-mono);
+  font-size: 0.76rem; padding: 0.55rem 0.75rem;
+  border-radius: 3px; outline: none; cursor: pointer;
+  appearance: none;
+}
+.filter-select:focus { border-color: var(--cyan); }
+
+/* MATERIAL CHIPS */
+.mat-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.mat-chip {
+  font-family: var(--font-mono);
+  font-size: 0.66rem; letter-spacing: 0.06em;
+  padding: 0.35rem 0.7rem; border-radius: 2px;
+  border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.15s;
+  color: var(--muted);
+}
+.mat-chip:hover { border-color: var(--border-hi); color: var(--text); }
+.mat-chip.active { color: var(--bg); }
+.mat-chip.c-cyan   { background: var(--cyan);   border-color: var(--cyan);   }
+.mat-chip.c-green  { background: var(--green);  border-color: var(--green);  }
+.mat-chip.c-amber  { background: var(--amber);  border-color: var(--amber);  }
+.mat-chip.c-violet { background: var(--violet); border-color: var(--violet); }
+.mat-chip.c-rose   { background: var(--rose);   border-color: var(--rose);   }
+
+/* MINI STAT TABLE */
+.mini-table { width: 100%; border-collapse: collapse; }
+.mini-table tr { border-bottom: 1px solid var(--border); }
+.mini-table tr:last-child { border-bottom: none; }
+.mini-table td {
+  padding: 0.55rem 0.25rem;
+  font-family: var(--font-mono); font-size: 0.72rem;
+  color: var(--muted); vertical-align: middle;
+}
+.mini-table td:last-child { text-align: right; color: var(--text); }
+.mini-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 0.4rem; }
+
+/* ══════════════════════════════════════════
+   DASHBOARD PANELS
+══════════════════════════════════════════ */
+.dashboard {
+  padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+
+/* Section headers */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem; font-weight: 700; color: var(--text);
+}
+.section-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; letter-spacing: 0.08em; color: var(--muted);
+  margin-top: 0.2rem;
+}
+.section-badge {
+  font-family: var(--font-mono);
+  font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.3rem 0.7rem; border-radius: 2px;
+  border: 1px solid var(--border); color: var(--muted);
+}
+
+/* PANEL CONTAINERS */
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.panel-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text); display: flex; align-items: center; gap: 0.5rem;
+}
+.panel-title-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+}
+.panel-meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; color: var(--muted); letter-spacing: 0.06em;
+}
+.panel-body { padding: 1.25rem; }
+
+/* CHART GRID */
+.chart-grid-2 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+}
+.chart-grid-3 {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;
+}
+.chart-grid-full { display: grid; gap: 1.5rem; }
+
+@media(max-width:1100px){.chart-grid-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px) {.chart-grid-2,.chart-grid-3{grid-template-columns:1fr;}}
+
+.chart-wrap { position: relative; width: 100%; }
+.chart-wrap canvas { width: 100% !important; }
+
+/* ══════════════════════════════════════════
+   DATA TABLE
+══════════════════════════════════════════ */
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-family: var(--font-mono); font-size: 0.76rem;
+}
+.data-table thead th {
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text); padding: 0.8rem 1rem;
+  text-align: left; border-bottom: 2px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  white-space: nowrap; font-weight: 600;
+}
+.data-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.1s; cursor: default;
+}
+.data-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+.data-table tbody tr:last-child { border-bottom: none; }
+.data-table td {
+  padding: 0.85rem 1rem; color: var(--muted);
+  vertical-align: middle; white-space: nowrap;
+}
+.data-table td.name { color: var(--text); font-weight: 500; }
+.data-table td.value { color: var(--text); letter-spacing: 0.04em; }
+.data-table td.pos { color: var(--green); }
+.data-table td.neg { color: var(--rose); }
+
+/* INLINE SPARK */
+.spark-bar {
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.spark-track {
+  flex: 1; height: 3px; background: var(--bg);
+  border-radius: 2px; overflow: hidden; min-width: 60px;
+}
+.spark-fill {
+  height: 100%; border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ══════════════════════════════════════════
+   PROPERTY MATRIX
+══════════════════════════════════════════ */
+.matrix-grid {
+  display: grid; grid-template-columns: 160px repeat(7, 1fr);
+  font-family: var(--font-mono); font-size: 0.58rem;
+  border: 1px solid var(--border); border-radius: 3px; overflow: hidden;
+}
+@media(max-width:900px){.matrix-grid{overflow-x:auto;display:block;}}
+
+.matrix-cell {
+  padding: 0.55rem 0.5rem;
+  border-right: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  text-align: center; vertical-align: middle;
+}
+.matrix-cell.header {
+  background: rgba(255,255,255,0.03);
+  color: var(--muted); letter-spacing: 0.08em;
+  font-size: 0.52rem; text-transform: uppercase;
+}
+.matrix-cell.row-header {
+  text-align: left; color: var(--text);
+  background: rgba(255,255,255,0.02);
+  letter-spacing: 0.04em;
+}
+.matrix-cell.score {
+  font-weight: 500;
+}
+/* Heat coloring done in JS */
+
+/* ══════════════════════════════════════════
+   CITATION FOOTNOTES
+══════════════════════════════════════════ */
+.citations {
+  padding: 2rem 2.5rem 2.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+.citations-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.25rem;
+}
+.citation-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 0.5rem;
+}
+.citation {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--slate); line-height: 1.6; letter-spacing: 0.02em;
+}
+.citation sup { color: var(--cyan); margin-right: 0.3rem; }
+
+/* ══════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════ */
+.color-cyan   { color: var(--cyan); }
+.color-green  { color: var(--green); }
+.color-amber  { color: var(--amber); }
+.color-rose   { color: var(--rose); }
+.color-violet { color: var(--violet); }
+.color-muted  { color: var(--muted); }
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.25rem 0.6rem; border-radius: 2px;
+  display: inline-flex; align-items: center;
+}
+.tag-cyan   { background: var(--cyan-dim);   color: var(--cyan);   border: 1px solid rgba(0,212,255,0.2);   }
+.tag-green  { background: var(--green-dim);  color: var(--green);  border: 1px solid rgba(16,185,129,0.2);  }
+.tag-amber  { background: var(--amber-dim);  color: var(--amber);  border: 1px solid rgba(245,158,11,0.2);  }
+.tag-rose   { background: var(--rose-dim);   color: var(--rose);   border: 1px solid rgba(244,63,94,0.2);   }
+.tag-violet { background: var(--violet-dim); color: var(--violet); border: 1px solid rgba(139,92,246,0.2);  }
+
+.divider-h {
+  height: 1px; background: var(--border); margin: 0;
+}
+
+.reveal { opacity:0; transform:translateY(16px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.revealed { opacity:1; transform:none; }
+
+@keyframes livePulse {
+  0%,100%{opacity:1;} 50%{opacity:0.4;}
+}
+@keyframes countUp {
+  from{opacity:0;} to{opacity:1;}
+}
+
+/* Trend sparkline mini charts in the KPI row */
+.kpi-spark { height: 24px; margin-top: 0.5rem; }
+
+/* Tooltip override for Chart.js */
+.chartjs-tooltip {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-hi) !important;
+  border-radius: 3px !important;
+}
+
+/* Responsive sidebar collapse */
+@media(max-width:900px){
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border);}
+  .masthead-nav{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═════════════════════ MASTHEAD ═════════════════════ -->
+<header class="masthead">
+  <div class="masthead-brand">
+    <span class="brand-mark">Nano<span>Analytics</span></span>
+    <span class="brand-version">v2.4 · 2025</span>
+  </div>
+  <nav class="masthead-nav">
+    <a class="nav-item active" href="#market">Market Intelligence</a>
+    <a class="nav-item" href="#materials">Material Properties</a>
+    <a class="nav-item" href="#research">Research Output</a>
+    <a class="nav-item" href="#applications">Applications</a>
+    <a class="nav-item" href="#safety">Safety & Regulation</a>
+    <a class="nav-item" href="#forecast">Forecast</a>
+  </nav>
+  <div class="masthead-meta">
+    <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+    <span class="timestamp" id="ts">Loading...</span>
+  </div>
+</header>
+
+<!-- ═════════════════════ OVERVIEW BAR ═════════════════════ -->
+<div class="overview-bar">
+  <div class="overview-header">
+    <h1 class="overview-title">
+      Global <em>Nanomaterials</em> &<br>Nanotechnology Analytics
+    </h1>
+    <div class="overview-meta">
+      Data sources: MarketsandMarkets · Statista · Web of Science<br>
+      Grand View Research · Nature Index · USPTO · WHO · ECHA<br>
+      Period: 2010 – 2035 &nbsp;|&nbsp; Last updated: Q1 2025
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Global Market Size</div>
+      <div class="kpi-value color-cyan">$87.9B</div>
+      <div class="kpi-delta delta-up">↑ 13.2% CAGR</div>
+      <div class="kpi-sub">2024 valuation</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Projected 2030</div>
+      <div class="kpi-value">$192.4B</div>
+      <div class="kpi-delta delta-up">↑ 2.2× current</div>
+      <div class="kpi-sub">Grand View Research, 2024</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Annual Publications</div>
+      <div class="kpi-value color-green">312K</div>
+      <div class="kpi-delta delta-up">↑ 8.4% YoY</div>
+      <div class="kpi-sub">Web of Science, 2024</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Active Patents</div>
+      <div class="kpi-value">1.84M</div>
+      <div class="kpi-delta delta-up">↑ 11.7% YoY</div>
+      <div class="kpi-sub">USPTO + EPO combined</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">R&D Investment</div>
+      <div class="kpi-value color-amber">$23.1B</div>
+      <div class="kpi-delta delta-up">↑ 9.8% YoY</div>
+      <div class="kpi-sub">Global public + private</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Registered Products</div>
+      <div class="kpi-value">6,400+</div>
+      <div class="kpi-delta delta-up">↑ Consumer market</div>
+      <div class="kpi-sub">OECD nano registry</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════════ MAIN ═════════════════════ -->
+<div class="main-content">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Data Filters</div>
+      <div class="filter-group">
+        <label class="filter-label">Region</label>
+        <select class="filter-select">
+          <option>All Regions</option>
+          <option>Asia-Pacific</option>
+          <option>North America</option>
+          <option>Europe</option>
+          <option>Rest of World</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Time Range</label>
+        <select class="filter-select">
+          <option>2010 – 2025</option>
+          <option>2015 – 2025</option>
+          <option>2020 – 2025</option>
+          <option>2025 – 2035 (Forecast)</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Application Sector</label>
+        <select class="filter-select">
+          <option>All Sectors</option>
+          <option>Medicine & Pharma</option>
+          <option>Electronics</option>
+          <option>Energy</option>
+          <option>Composites</option>
+          <option>Environmental</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Material Class</div>
+      <div class="mat-chips">
+        <span class="mat-chip active c-cyan">Graphene</span>
+        <span class="mat-chip active c-green">CNTs</span>
+        <span class="mat-chip active c-amber">QDs</span>
+        <span class="mat-chip active c-violet">MXenes</span>
+        <span class="mat-chip active c-rose">NPs</span>
+        <span class="mat-chip">MOFs</span>
+        <span class="mat-chip">Aerogels</span>
+        <span class="mat-chip">Fullerenes</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Market Share by Class</div>
+      <table class="mini-table">
+        <tr><td><span class="mini-dot" style="background:var(--cyan)"></span>Metal NPs</td><td>34.2%</td></tr>
+        <tr><td><span class="mini-dot" style="background:var(--green)"></span>Carbon-based</td><td>21.8%</td></tr>
+        <tr><td><span class="mini-dot" style="background:var(--amber)"></span>Metal Oxides</td><td>18.5%</td></tr>
+        <tr><td><span class="mini-dot" style="background:var(--violet)"></span>Semiconductors</td><td>12.3%</td></tr>
+        <tr><td><span class="mini-dot" style="background:var(--rose)"></span>Polymeric</td><td>8.1%</td></tr>
+        <tr><td><span class="mini-dot" style="background:var(--slate)"></span>Others</td><td>5.1%</td></tr>
+      </table>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Top Producing Countries</div>
+      <table class="mini-table">
+        <tr><td>🇨🇳 China</td><td class="color-cyan">38.4%</td></tr>
+        <tr><td>🇺🇸 United States</td><td>22.1%</td></tr>
+        <tr><td>🇩🇪 Germany</td><td>7.3%</td></tr>
+        <tr><td>🇯🇵 Japan</td><td>6.8%</td></tr>
+        <tr><td>🇰🇷 South Korea</td><td>4.9%</td></tr>
+        <tr><td>🇬🇧 United Kingdom</td><td>3.2%</td></tr>
+        <tr><td>🇫🇷 France</td><td>2.8%</td></tr>
+        <tr><td>Others</td><td>14.5%</td></tr>
+      </table>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">TRL Readiness</div>
+      <table class="mini-table">
+        <tr><td>TRL 9 (Deployed)</td><td class="color-green">AuNPs, AgNPs</td></tr>
+        <tr><td>TRL 7-8 (Pilot)</td><td class="color-amber">Graphene, CNT</td></tr>
+        <tr><td>TRL 5-6 (Demo)</td><td class="color-cyan">MXenes, QDs</td></tr>
+        <tr><td>TRL 3-4 (Lab)</td><td class="color-muted">MOFs, BP</td></tr>
+        <tr><td>TRL 1-2 (Research)</td><td class="color-muted">Nano-robots</td></tr>
+      </table>
+    </div>
+  </aside>
+
+  <!-- DASHBOARD -->
+  <main class="dashboard">
+
+    <!-- ── SECTION: MARKET INTELLIGENCE ── -->
+    <section id="market">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Market Intelligence</div>
+          <div class="section-sub">GLOBAL NANOMATERIALS MARKET SIZE, GROWTH & SEGMENTATION — 2010–2035E</div>
+        </div>
+        <span class="section-badge">MarketsandMarkets · Grand View Research · Statista 2024</span>
+      </div>
+
+      <div class="chart-grid-2 reveal">
+        <!-- Market Growth -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--cyan)"></span>Global Market Size (USD Billion)</span>
+            <span class="panel-meta">2010–2035 · CAGR 13.2%</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:220px"><canvas id="chart-market"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Sector Split -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--amber)"></span>Market Share by Application Sector (2024)</span>
+            <span class="panel-meta">USD Billion · % of total</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:220px"><canvas id="chart-sector"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regional Breakdown -->
+      <div class="panel reveal">
+        <div class="panel-header">
+          <span class="panel-title"><span class="panel-title-dot" style="background:var(--green)"></span>Regional Market Size Comparison (USD Billion)</span>
+          <span class="panel-meta">2020 vs 2024 vs 2030E · Grand View Research</span>
+        </div>
+        <div class="panel-body">
+          <div class="chart-wrap" style="height:200px"><canvas id="chart-region"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Market Data Table -->
+      <div class="panel reveal">
+        <div class="panel-header">
+          <span class="panel-title"><span class="panel-title-dot" style="background:var(--violet)"></span>Nanomaterial Sub-Segment Market Data</span>
+          <span class="panel-meta">2024 · Source: MarketsandMarkets, Mordor Intelligence</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>MATERIAL / SEGMENT</th>
+                <th>MARKET 2024</th>
+                <th>MARKET 2030E</th>
+                <th>CAGR</th>
+                <th>RELATIVE SIZE</th>
+                <th>LEAD APPLICATION</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name">Carbon Nanotubes (CNTs)</td>
+                <td class="value">$9.8B</td>
+                <td class="value">$23.4B</td>
+                <td class="pos">+15.7%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:79%;background:var(--cyan)"></div></div>79%</div></td>
+                <td>Electronics / Composites</td>
+                <td><span class="tag tag-amber">SCALING</span></td>
+              </tr>
+              <tr>
+                <td class="name">Graphene & Derivatives</td>
+                <td class="value">$1.1B</td>
+                <td class="value">$6.8B</td>
+                <td class="pos">+35.2%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:9%;background:var(--green)"></div></div>9%</div></td>
+                <td>Energy / Coatings</td>
+                <td><span class="tag tag-cyan">EMERGING</span></td>
+              </tr>
+              <tr>
+                <td class="name">Metal Nanoparticles</td>
+                <td class="value">$30.1B</td>
+                <td class="value">$61.5B</td>
+                <td class="pos">+12.7%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:100%;background:var(--amber)"></div></div>100%</div></td>
+                <td>Medicine / Catalysis</td>
+                <td><span class="tag tag-green">MATURE</span></td>
+              </tr>
+              <tr>
+                <td class="name">Quantum Dots</td>
+                <td class="value">$8.2B</td>
+                <td class="value">$24.7B</td>
+                <td class="pos">+20.1%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:66%;background:var(--violet)"></div></div>66%</div></td>
+                <td>Displays / Bio-imaging</td>
+                <td><span class="tag tag-cyan">EMERGING</span></td>
+              </tr>
+              <tr>
+                <td class="name">Metal-Organic Frameworks</td>
+                <td class="value">$1.3B</td>
+                <td class="value">$7.1B</td>
+                <td class="pos">+28.4%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:11%;background:var(--rose)"></div></div>11%</div></td>
+                <td>Gas Storage / Separation</td>
+                <td><span class="tag tag-amber">SCALING</span></td>
+              </tr>
+              <tr>
+                <td class="name">Nano-enabled Drug Delivery</td>
+                <td class="value">$12.4B</td>
+                <td class="value">$34.8B</td>
+                <td class="pos">+18.8%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:41%;background:var(--cyan)"></div></div>41%</div></td>
+                <td>Oncology / mRNA vaccines</td>
+                <td><span class="tag tag-green">MATURE</span></td>
+              </tr>
+              <tr>
+                <td class="name">MXenes (2D carbides)</td>
+                <td class="value">$0.3B</td>
+                <td class="value">$1.9B</td>
+                <td class="pos">+36.8%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:2%;background:var(--violet)"></div></div>2%</div></td>
+                <td>Supercapacitors / EMI</td>
+                <td><span class="tag tag-rose">EARLY</span></td>
+              </tr>
+              <tr>
+                <td class="name">Nano-composites (bulk)</td>
+                <td class="value">$18.6B</td>
+                <td class="value">$42.1B</td>
+                <td class="pos">+14.6%</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:62%;background:var(--green)"></div></div>62%</div></td>
+                <td>Automotive / Aerospace</td>
+                <td><span class="tag tag-green">MATURE</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-h reveal"></div>
+
+    <!-- ── SECTION: MATERIAL PROPERTIES ── -->
+    <section id="materials">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Material Properties Database</div>
+          <div class="section-sub">QUANTITATIVE COMPARISON OF KEY NANOMATERIAL CLASSES — MECHANICAL, ELECTRICAL, THERMAL</div>
+        </div>
+        <span class="section-badge">Nature Materials · ACS Nano · Advanced Materials</span>
+      </div>
+
+      <div class="chart-grid-2 reveal">
+        <!-- Radar: Property Profiles -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--cyan)"></span>Multi-Property Radar — Normalised Scores</span>
+            <span class="panel-meta">Relative to theoretical maxima</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:260px"><canvas id="chart-radar"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Strength vs Conductivity scatter -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--green)"></span>Tensile Strength vs Electrical Conductivity</span>
+            <span class="panel-meta">GPa vs 10⁶ S/m · Bubble = market size</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:260px"><canvas id="chart-scatter"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Properties Matrix -->
+      <div class="panel reveal">
+        <div class="panel-header">
+          <span class="panel-title"><span class="panel-title-dot" style="background:var(--amber)"></span>Quantitative Property Matrix — Key Nanomaterials</span>
+          <span class="panel-meta">Values sourced from peer-reviewed literature · Colour = normalised rank</span>
+        </div>
+        <div class="panel-body" style="padding:0; overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>MATERIAL</th>
+                <th>TENSILE STR.</th>
+                <th>ELEC. CONDUCTIVITY</th>
+                <th>THERMAL COND.</th>
+                <th>SURFACE AREA</th>
+                <th>YOUNG'S MOD.</th>
+                <th>DENSITY</th>
+                <th>BANDGAP</th>
+                <th>DIMENSION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name" style="color:var(--cyan)">Graphene</td>
+                <td class="value">130 GPa</td>
+                <td class="value">~10⁶ S/m</td>
+                <td class="value">5,300 W/mK</td>
+                <td class="value">2,630 m²/g</td>
+                <td class="value">1,050 GPa</td>
+                <td class="value">0.77 mg/m²</td>
+                <td class="value">0 eV</td>
+                <td><span class="tag tag-cyan">2D</span></td>
+              </tr>
+              <tr>
+                <td class="name" style="color:var(--green)">SWCNT</td>
+                <td class="value">100 GPa</td>
+                <td class="value">10⁷ S/m</td>
+                <td class="value">3,500 W/mK</td>
+                <td class="value">1,315 m²/g</td>
+                <td class="value">1,000 GPa</td>
+                <td class="value">1.3 g/cm³</td>
+                <td class="value">0–1.5 eV</td>
+                <td><span class="tag tag-green">1D</span></td>
+              </tr>
+              <tr>
+                <td class="name" style="color:var(--amber)">MoS₂ (1L)</td>
+                <td class="value">17 GPa</td>
+                <td class="value">~10⁻⁴ S/m</td>
+                <td class="value">34 W/mK</td>
+                <td class="value">—</td>
+                <td class="value">270 GPa</td>
+                <td class="value">5.1 g/cm³</td>
+                <td class="value">1.8 eV ★</td>
+                <td><span class="tag tag-amber">2D</span></td>
+              </tr>
+              <tr>
+                <td class="name" style="color:var(--violet)">Ti₃C₂Tₓ MXene</td>
+                <td class="value">~15 GPa</td>
+                <td class="value">5×10⁶ S/m</td>
+                <td class="value">55 W/mK</td>
+                <td class="value">~100 m²/g</td>
+                <td class="value">~330 GPa</td>
+                <td class="value">4.3 g/cm³</td>
+                <td class="value">0 eV (metal)</td>
+                <td><span class="tag tag-violet">2D</span></td>
+              </tr>
+              <tr>
+                <td class="name">Gold NPs (20nm)</td>
+                <td class="value">~0.6 GPa</td>
+                <td class="value">4.5×10⁷ S/m</td>
+                <td class="value">318 W/mK</td>
+                <td class="value">~50 m²/g</td>
+                <td class="value">79 GPa</td>
+                <td class="value">19.3 g/cm³</td>
+                <td class="value">—</td>
+                <td><span class="tag tag-rose">0D</span></td>
+              </tr>
+              <tr>
+                <td class="name">Silica Aerogel</td>
+                <td class="value">&lt;0.01 GPa</td>
+                <td class="value">&lt;10⁻¹⁰ S/m</td>
+                <td class="value">0.015 W/mK ★</td>
+                <td class="value">~1,000 m²/g</td>
+                <td class="value">~0.001 GPa</td>
+                <td class="value">0.003 g/cm³</td>
+                <td class="value">—</td>
+                <td><span class="tag">3D</span></td>
+              </tr>
+              <tr>
+                <td class="name">h-BN (1L)</td>
+                <td class="value">~70 GPa</td>
+                <td class="value">&lt;10⁻¹² S/m</td>
+                <td class="value">600 W/mK</td>
+                <td class="value">—</td>
+                <td class="value">865 GPa</td>
+                <td class="value">2.1 g/cm³</td>
+                <td class="value">6.0 eV</td>
+                <td><span class="tag tag-cyan">2D</span></td>
+              </tr>
+              <tr>
+                <td class="name">NU-110 (MOF)</td>
+                <td class="value">&lt;0.05 GPa</td>
+                <td class="value">Insulator</td>
+                <td class="value">~0.3 W/mK</td>
+                <td class="value">7,140 m²/g ★</td>
+                <td class="value">—</td>
+                <td class="value">~0.4 g/cm³</td>
+                <td class="value">—</td>
+                <td><span class="tag">3D</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-h reveal"></div>
+
+    <!-- ── SECTION: RESEARCH OUTPUT ── -->
+    <section id="research">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Research Output & Innovation</div>
+          <div class="section-sub">PUBLICATION VOLUME · CITATION IMPACT · PATENT FILING TRENDS · H-INDEX DISTRIBUTION</div>
+        </div>
+        <span class="section-badge">Web of Science · Scopus · USPTO · EPO · 2024</span>
+      </div>
+
+      <div class="chart-grid-3 reveal">
+        <!-- Publications trend -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--cyan)"></span>Annual Publications (×1000)</span>
+            <span class="panel-meta">Web of Science · 2010–2024</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:180px"><canvas id="chart-pubs"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Patent filings -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--amber)"></span>Patent Filings by Country (2024)</span>
+            <span class="panel-meta">USPTO + EPO · 1,000s</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:180px"><canvas id="chart-patents"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Funding split -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--violet)"></span>R&D Funding by Sector (2024)</span>
+            <span class="panel-meta">USD Billion · $23.1B total</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:180px"><canvas id="chart-funding"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research metrics table -->
+      <div class="panel reveal">
+        <div class="panel-header">
+          <span class="panel-title"><span class="panel-title-dot" style="background:var(--rose)"></span>Research Impact by Material Class (2024 cumulative)</span>
+          <span class="panel-meta">Web of Science · Scopus · Google Scholar</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>MATERIAL</th>
+                <th>TOTAL PAPERS</th>
+                <th>2024 PAPERS</th>
+                <th>YoY GROWTH</th>
+                <th>AVG CITATIONS</th>
+                <th>h-INDEX TOP JOURNAL</th>
+                <th>TOP INSTITUTION</th>
+                <th>BREAKTHROUGH YEAR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name" style="color:var(--cyan)">Graphene</td>
+                <td class="value">892,000</td>
+                <td class="value">67,400</td>
+                <td class="pos">+6.8%</td>
+                <td class="value">38.4</td>
+                <td class="value">h=412</td>
+                <td>MIT / Manchester</td>
+                <td>2004 (Geim & Novoselov)</td>
+              </tr>
+              <tr>
+                <td class="name" style="color:var(--green)">CNTs</td>
+                <td class="value">741,000</td>
+                <td class="value">52,100</td>
+                <td class="pos">+3.2%</td>
+                <td class="value">44.1</td>
+                <td class="value">h=498</td>
+                <td>IBM / Tsinghua</td>
+                <td>1991 (Iijima)</td>
+              </tr>
+              <tr>
+                <td class="name" style="color:var(--amber)">Quantum Dots</td>
+                <td class="value">420,000</td>
+                <td class="value">48,800</td>
+                <td class="pos">+11.4%</td>
+                <td class="value">29.7</td>
+                <td class="value">h=311</td>
+                <td>MIT / Stanford</td>
+                <td>1998 (Alivisatos/Bawendi)</td>
+              </tr>
+              <tr>
+                <td class="name">Gold NPs</td>
+                <td class="value">560,000</td>
+                <td class="value">41,200</td>
+                <td class="pos">+5.1%</td>
+                <td class="value">31.8</td>
+                <td class="value">h=374</td>
+                <td>ETH Zürich / NUS</td>
+                <td>1951 (Turkevich method)</td>
+              </tr>
+              <tr>
+                <td class="name" style="color:var(--violet)">MXenes</td>
+                <td class="value">28,500</td>
+                <td class="value">9,800</td>
+                <td class="pos">+34.2%</td>
+                <td class="value">22.3</td>
+                <td class="value">h=148</td>
+                <td>Drexel University</td>
+                <td>2011 (Gogotsi)</td>
+              </tr>
+              <tr>
+                <td class="name">MOFs</td>
+                <td class="value">185,000</td>
+                <td class="value">22,700</td>
+                <td class="pos">+14.8%</td>
+                <td class="value">26.5</td>
+                <td class="value">h=224</td>
+                <td>Berkeley / NU</td>
+                <td>1999 (Yaghi)</td>
+              </tr>
+              <tr>
+                <td class="name">Perovskite NCs</td>
+                <td class="value">112,000</td>
+                <td class="value">19,300</td>
+                <td class="pos">+22.6%</td>
+                <td class="value">18.7</td>
+                <td class="value">h=189</td>
+                <td>EPFL / KAUST</td>
+                <td>2014 (Kovalenko)</td>
+              </tr>
+              <tr>
+                <td class="name">Black Phosphorus</td>
+                <td class="value">18,400</td>
+                <td class="value">4,200</td>
+                <td class="pos">+18.3%</td>
+                <td class="value">15.4</td>
+                <td class="value">h=102</td>
+                <td>Peking / MIT</td>
+                <td>2014 (rediscovery)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-h reveal"></div>
+
+    <!-- ── SECTION: APPLICATIONS ── -->
+    <section id="applications">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Application Sector Analysis</div>
+          <div class="section-sub">MARKET PENETRATION · GROWTH TRAJECTORY · TECHNOLOGY READINESS BY SECTOR</div>
+        </div>
+        <span class="section-badge">WHO · IEA · OECD · Pharma Analytics 2024</span>
+      </div>
+
+      <div class="chart-grid-2 reveal">
+        <!-- Medicine bar chart -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--rose)"></span>Nano-Medicine: Approved Products Timeline</span>
+            <span class="panel-meta">FDA + EMA approvals per year · 1995–2024</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:220px"><canvas id="chart-pharma"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Energy applications -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--amber)"></span>Energy Nano-Tech Performance Gains (2015→2024)</span>
+            <span class="panel-meta">% improvement over baseline</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:220px"><canvas id="chart-energy"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application sector table -->
+      <div class="panel reveal">
+        <div class="panel-header">
+          <span class="panel-title"><span class="panel-title-dot" style="background:var(--cyan)"></span>Application Sector Deep-Dive — Key Metrics 2024</span>
+          <span class="panel-meta">Multi-source synthesis · Statista · MarketsandMarkets · Mordor</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>SECTOR</th>
+                <th>MARKET 2024</th>
+                <th>CAGR</th>
+                <th>KEY NANO-MATERIAL</th>
+                <th>PENETRATION</th>
+                <th>NOTABLE PRODUCT / COMPANY</th>
+                <th>REGULATORY</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name">Pharmaceuticals & DDS</td>
+                <td class="value">$12.4B</td>
+                <td class="pos">+18.8%</td>
+                <td>Lipid NPs · PLGA · QDs</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:82%;background:var(--rose)"></div></div>82%</div></td>
+                <td>Doxil · Abraxane · mRNA-LNP</td>
+                <td><span class="tag tag-green">FDA CLEARED</span></td>
+              </tr>
+              <tr>
+                <td class="name">Semiconductor / Electronics</td>
+                <td class="value">$22.1B</td>
+                <td class="pos">+11.4%</td>
+                <td>CNTs · QDs · Si NWires</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:90%;background:var(--cyan)"></div></div>90%</div></td>
+                <td>TSMC 3nm · Samsung QLED</td>
+                <td><span class="tag tag-green">DEPLOYED</span></td>
+              </tr>
+              <tr>
+                <td class="name">Energy Storage & Generation</td>
+                <td class="value">$8.7B</td>
+                <td class="pos">+22.3%</td>
+                <td>Graphene · Si NPs · Perovskites</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:48%;background:var(--amber)"></div></div>48%</div></td>
+                <td>Amprius NRG · QuantumScape</td>
+                <td><span class="tag tag-amber">PARTIAL</span></td>
+              </tr>
+              <tr>
+                <td class="name">Aerospace & Defence</td>
+                <td class="value">$5.3B</td>
+                <td class="pos">+14.1%</td>
+                <td>CNT Composites · Aerogels</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:55%;background:var(--green)"></div></div>55%</div></td>
+                <td>Boeing · Lockheed · NASA</td>
+                <td><span class="tag tag-amber">CONTROLLED</span></td>
+              </tr>
+              <tr>
+                <td class="name">Environmental Remediation</td>
+                <td class="value">$2.8B</td>
+                <td class="pos">+19.7%</td>
+                <td>nZVI · TiO₂ · GO membranes</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:28%;background:var(--violet)"></div></div>28%</div></td>
+                <td>Nanotech Water · 3M NanoSafe</td>
+                <td><span class="tag tag-cyan">EMERGING</span></td>
+              </tr>
+              <tr>
+                <td class="name">Cosmetics & Personal Care</td>
+                <td class="value">$6.9B</td>
+                <td class="pos">+9.2%</td>
+                <td>TiO₂ NPs · ZnO NPs · AgNPs</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:73%;background:var(--rose)"></div></div>73%</div></td>
+                <td>L'Oréal · BASF · Shiseido</td>
+                <td><span class="tag tag-amber">EU SCRUTINY</span></td>
+              </tr>
+              <tr>
+                <td class="name">Food & Agriculture</td>
+                <td class="value">$1.8B</td>
+                <td class="pos">+17.4%</td>
+                <td>AgNPs · Nano-clay · ZnO</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:18%;background:var(--green)"></div></div>18%</div></td>
+                <td>NanoViricides · SiNtx Tech</td>
+                <td><span class="tag tag-rose">LIMITED</span></td>
+              </tr>
+              <tr>
+                <td class="name">Water Treatment</td>
+                <td class="value">$3.2B</td>
+                <td class="pos">+16.9%</td>
+                <td>GO · TiO₂ · Zeolites</td>
+                <td><div class="spark-bar"><div class="spark-track"><div class="spark-fill" style="width:34%;background:var(--cyan)"></div></div>34%</div></td>
+                <td>NX Filtration · Toray</td>
+                <td><span class="tag tag-amber">REGULATED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-h reveal"></div>
+
+    <!-- ── SECTION: SAFETY & REGULATION ── -->
+    <section id="safety">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Safety, Toxicology & Regulatory Landscape</div>
+          <div class="section-sub">TOXICITY DATA · REGULATORY STATUS · OCCUPATIONAL EXPOSURE LIMITS · ECOTOXICOLOGY</div>
+        </div>
+        <span class="section-badge">WHO · ECHA · EPA · NIOSH · OECD 2024</span>
+      </div>
+
+      <div class="chart-grid-2 reveal">
+        <!-- Regulatory status chart -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--rose)"></span>Regulatory Coverage by Jurisdiction (% nano-materials with binding limits)</span>
+            <span class="panel-meta">ECHA · EPA · FDA · 2024</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:220px"><canvas id="chart-regulatory"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Toxicity categories -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--amber)"></span>Toxicity Classification Distribution (OECD 318 studies)</span>
+            <span class="panel-meta">N = 2,840 engineered nanomaterials tested</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:220px"><canvas id="chart-tox"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Safety data table -->
+      <div class="panel reveal">
+        <div class="panel-header">
+          <span class="panel-title"><span class="panel-title-dot" style="background:var(--rose)"></span>Occupational Exposure Limits & Toxicological Classification</span>
+          <span class="panel-meta">NIOSH · OSHA · ECHA REACH · WHO 2024</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>MATERIAL</th>
+                <th>NIOSH REL (mg/m³)</th>
+                <th>IARC CLASS</th>
+                <th>PRIMARY ROUTE</th>
+                <th>KEY HAZARD</th>
+                <th>ECOTOXICITY (LC50)</th>
+                <th>EU REACH STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name">TiO₂ Nanoparticles</td>
+                <td class="value">0.3 mg/m³</td>
+                <td><span class="tag tag-amber">2B (possible)</span></td>
+                <td>Inhalation</td>
+                <td>Pulmonary inflammation</td>
+                <td>48h EC50 &gt;1000 mg/L</td>
+                <td><span class="tag tag-green">REGISTERED</span></td>
+              </tr>
+              <tr>
+                <td class="name">Carbon Nanotubes (MWCNT)</td>
+                <td class="value">1 µg/m³ (resp.)</td>
+                <td><span class="tag tag-amber">2B (possible)</span></td>
+                <td>Inhalation</td>
+                <td>Biopersistence, mesothelioma</td>
+                <td>96h LC50 ~3.2 mg/L (fish)</td>
+                <td><span class="tag tag-amber">UNDER REVIEW</span></td>
+              </tr>
+              <tr>
+                <td class="name">Silver Nanoparticles</td>
+                <td class="value">0.9 µg/m³</td>
+                <td><span class="tag">Not classified</span></td>
+                <td>Dermal / Inhalation</td>
+                <td>Argyria, aquatic toxicity</td>
+                <td>96h LC50 0.02 mg/L ★</td>
+                <td><span class="tag tag-green">REGISTERED</span></td>
+              </tr>
+              <tr>
+                <td class="name">ZnO Nanoparticles</td>
+                <td class="value">2.0 mg/m³</td>
+                <td><span class="tag">Not classified</span></td>
+                <td>Inhalation</td>
+                <td>Metal fume fever</td>
+                <td>48h EC50 0.04 mg/L</td>
+                <td><span class="tag tag-green">REGISTERED</span></td>
+              </tr>
+              <tr>
+                <td class="name">CdSe Quantum Dots</td>
+                <td class="value">Not established</td>
+                <td><span class="tag tag-rose">Group 1 (Cd)</span></td>
+                <td>Dermal / IV</td>
+                <td>Cd²⁺ release, genotoxic</td>
+                <td>96h LC50 &lt;1 µg/L ★★</td>
+                <td><span class="tag tag-rose">RESTRICTED (RoHS)</span></td>
+              </tr>
+              <tr>
+                <td class="name">Graphene Oxide (GO)</td>
+                <td class="value">Not established</td>
+                <td><span class="tag">Unclassified</span></td>
+                <td>Inhalation</td>
+                <td>Lung inflammation (high dose)</td>
+                <td>72h EC50 ~3.5 mg/L</td>
+                <td><span class="tag tag-cyan">PRE-REGISTRATION</span></td>
+              </tr>
+              <tr>
+                <td class="name">Iron Oxide (SPIONs)</td>
+                <td class="value">5.0 mg/m³</td>
+                <td><span class="tag">Not classified</span></td>
+                <td>IV (medical)</td>
+                <td>Low — FDA approved MRI</td>
+                <td>96h LC50 &gt;500 mg/L</td>
+                <td><span class="tag tag-green">REGISTERED</span></td>
+              </tr>
+              <tr>
+                <td class="name">Nano-SiO₂</td>
+                <td class="value">0.05 mg/m³</td>
+                <td><span class="tag tag-rose">Group 1 (cryst.)</span></td>
+                <td>Inhalation</td>
+                <td>Silicosis risk</td>
+                <td>96h LC50 &gt;10,000 mg/L</td>
+                <td><span class="tag tag-green">REGISTERED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-h reveal"></div>
+
+    <!-- ── SECTION: FORECAST ── -->
+    <section id="forecast">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Market Forecast & Emerging Trends</div>
+          <div class="section-sub">2025–2035 PROJECTIONS · TECHNOLOGY EMERGENCE CURVES · INVESTMENT SIGNALS</div>
+        </div>
+        <span class="section-badge">BloombergNEF · McKinsey · IEA · Nature 2024</span>
+      </div>
+
+      <div class="chart-grid-2 reveal">
+        <!-- 10-year forecast -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--cyan)"></span>10-Year Market Forecast by Segment (USD Billion)</span>
+            <span class="panel-meta">2025–2035 · Stacked area · Base case scenario</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:250px"><canvas id="chart-forecast"></canvas></div>
+          </div>
+        </div>
+
+        <!-- VC Investment -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title"><span class="panel-title-dot" style="background:var(--green)"></span>Venture Capital Investment in Nano-Startups</span>
+            <span class="panel-meta">USD Billion · Annual · Pitchbook 2024</span>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap" style="height:250px"><canvas id="chart-vc"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emerging Materials Forecast Table -->
+      <div class="panel reveal">
+        <div class="panel-header">
+          <span class="panel-title"><span class="panel-title-dot" style="background:var(--violet)"></span>Emerging Nanomaterials — Technology Forecast to 2035</span>
+          <span class="panel-meta">Expert consensus · Gartner Hype Cycle · Nature Outlook · 2024</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>TECHNOLOGY</th>
+                <th>CURRENT TRL</th>
+                <th>PROJECTED TRL (2030)</th>
+                <th>MARKET 2024</th>
+                <th>MARKET 2035E</th>
+                <th>KEY BARRIER</th>
+                <th>HYPE CYCLE PHASE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name" style="color:var(--cyan)">Graphene ICs / Transistors</td>
+                <td class="value">TRL 4–5</td>
+                <td class="pos">TRL 7–8</td>
+                <td>$0.08B</td>
+                <td class="value">$4.2B</td>
+                <td>Bandgap engineering</td>
+                <td><span class="tag tag-cyan">SLOPE OF ENLIGHTENMENT</span></td>
+              </tr>
+              <tr>
+                <td class="name" style="color:var(--violet)">MXene Supercapacitors</td>
+                <td class="value">TRL 5–6</td>
+                <td class="pos">TRL 8</td>
+                <td>$0.3B</td>
+                <td class="value">$3.8B</td>
+                <td>Oxidation stability</td>
+                <td><span class="tag tag-amber">PEAK EXPECTATIONS</span></td>
+              </tr>
+              <tr>
+                <td class="name">Perovskite Solar Cells</td>
+                <td class="value">TRL 6–7</td>
+                <td class="pos">TRL 9</td>
+                <td>$0.4B</td>
+                <td class="value">$8.7B</td>
+                <td>Long-term stability</td>
+                <td><span class="tag tag-green">PLATEAU OF PRODUCTIVITY</span></td>
+              </tr>
+              <tr>
+                <td class="name">Nano-robot Drug Delivery</td>
+                <td class="value">TRL 2–3</td>
+                <td class="value">TRL 4–5</td>
+                <td>—</td>
+                <td class="value">$0.5B</td>
+                <td>Autonomous control</td>
+                <td><span class="tag tag-rose">TROUGH OF DISILLUSIONMENT</span></td>
+              </tr>
+              <tr>
+                <td class="name">DNA Origami Nanodevices</td>
+                <td class="value">TRL 3–4</td>
+                <td class="value">TRL 5–6</td>
+                <td>$0.05B</td>
+                <td class="value">$0.9B</td>
+                <td>Scalable synthesis</td>
+                <td><span class="tag tag-cyan">SLOPE OF ENLIGHTENMENT</span></td>
+              </tr>
+              <tr>
+                <td class="name">MOF Gas Separation</td>
+                <td class="value">TRL 6</td>
+                <td class="pos">TRL 8–9</td>
+                <td>$1.3B</td>
+                <td class="value">$9.4B</td>
+                <td>Scale-up cost</td>
+                <td><span class="tag tag-green">PLATEAU OF PRODUCTIVITY</span></td>
+              </tr>
+              <tr>
+                <td class="name">Atomically Precise Manufacturing</td>
+                <td class="value">TRL 1–2</td>
+                <td class="value">TRL 2–3</td>
+                <td>—</td>
+                <td class="value">—</td>
+                <td>Parallelisation</td>
+                <td><span class="tag tag-amber">PEAK EXPECTATIONS</span></td>
+              </tr>
+              <tr>
+                <td class="name">CNT-based Interconnects</td>
+                <td class="value">TRL 5–6</td>
+                <td class="pos">TRL 8</td>
+                <td>$0.6B</td>
+                <td class="value">$5.1B</td>
+                <td>Chirality control</td>
+                <td><span class="tag tag-cyan">SLOPE OF ENLIGHTENMENT</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═════════════════════ CITATIONS ═════════════════════ -->
+<div class="citations">
+  <div class="citations-title">Data Sources & References</div>
+  <div class="citation-list">
+    <div class="citation"><sup>1</sup> MarketsandMarkets. "Nanomaterials Market — Global Forecast to 2029." Chicago, 2024.</div>
+    <div class="citation"><sup>2</sup> Grand View Research. "Nanotechnology Market Size, Share & Trends Analysis, 2024–2030." San Francisco, 2024.</div>
+    <div class="citation"><sup>3</sup> Web of Science Group. "Global Research Output in Nanotechnology." Clarivate Analytics, 2024.</div>
+    <div class="citation"><sup>4</sup> Statista Research Department. "Nanotechnology market size worldwide 2015–2030." Hamburg, 2024.</div>
+    <div class="citation"><sup>5</sup> NIOSH. "Current Intelligence Bulletin 65: Occupational Exposure to Carbon Nanotubes." CDC/NIOSH, 2013 (updated 2024).</div>
+    <div class="citation"><sup>6</sup> ECHA. "Nanomaterials under REACH: Identifying and Assessing Nano-forms." European Chemicals Agency, 2024.</div>
+    <div class="citation"><sup>7</sup> Lee, C. et al. "Measurement of the elastic properties and intrinsic strength of monolayer graphene." Science 321, 385–388 (2008).</div>
+    <div class="citation"><sup>8</sup> Balandin, A.A. et al. "Superior thermal conductivity of single-layer graphene." Nano Letters 8, 902–907 (2008).</div>
+    <div class="citation"><sup>9</sup> Furukawa, H. et al. "The chemistry and applications of metal-organic frameworks." Science 341, 1230444 (2013).</div>
+    <div class="citation"><sup>10</sup> Alivisatos, A.P. "Semiconductor clusters, nanocrystals, and quantum dots." Science 271, 933–937 (1996).</div>
+    <div class="citation"><sup>11</sup> Naguib, M. et al. "Two-dimensional nanocrystals produced by exfoliation of Ti₃AlC₂." Advanced Materials 23, 4248 (2011).</div>
+    <div class="citation"><sup>12</sup> Mordor Intelligence. "Carbon Nanotubes Market — Growth, Trends & Forecast 2024–2029." 2024.</div>
+    <div class="citation"><sup>13</sup> Pitchbook. "2024 Annual Venture Monitor: Deep Tech & Nano Startups." Seattle, 2024.</div>
+    <div class="citation"><sup>14</sup> OECD. "Test No. 318: Dispersion Stability of Nanomaterials in Simulated Environmental Media." Paris, 2017.</div>
+    <div class="citation"><sup>15</sup> BloombergNEF. "New Energy Outlook 2024 — Nanomaterials in Clean Energy." New York, 2024.</div>
+    <div class="citation"><sup>16</sup> FDA. "Considering Whether an FDA-Regulated Product Involves the Application of Nanotechnology." 2014 (guidance).</div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════
+   TIMESTAMP
+══════════════════════════════════ */
+function tick(){
+  const now = new Date();
+  document.getElementById('ts').textContent =
+    now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) + ' · ' +
+    now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) + ' UTC';
+}
+tick(); setInterval(tick, 1000);
+
+/* ══════════════════════════════════
+   CHART.JS GLOBAL DEFAULTS
+══════════════════════════════════ */
+Chart.defaults.color = '#9dadc8';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
+Chart.defaults.font.size = 12;
+Chart.defaults.plugins.legend.labels.boxWidth = 10;
+Chart.defaults.plugins.legend.labels.padding = 16;
+Chart.defaults.plugins.tooltip.backgroundColor = '#1c2a42';
+Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,0.2)';
+Chart.defaults.plugins.tooltip.borderWidth = 1;
+Chart.defaults.plugins.tooltip.padding = 12;
+Chart.defaults.plugins.tooltip.titleFont = {family:"'JetBrains Mono',monospace",size:11,weight:'400'};
+Chart.defaults.plugins.tooltip.bodyFont = {family:"'JetBrains Mono',monospace",size:11};
+
+const C = {
+  cyan:   '#22dfff', cyan20: 'rgba(34,223,255,0.22)',   cyan10: 'rgba(34,223,255,0.12)',
+  green:  '#22d98a', green20:'rgba(34,217,138,0.22)',  green10:'rgba(34,217,138,0.12)',
+  amber:  '#fbbf24', amber20:'rgba(251,191,36,0.22)',  amber10:'rgba(251,191,36,0.12)',
+  rose:   '#fb5271', rose20: 'rgba(251,82,113,0.22)',  rose10: 'rgba(251,82,113,0.12)',
+  violet: '#a78bfa', violet20:'rgba(167,139,250,0.22)',violet10:'rgba(167,139,250,0.12)',
+  slate:  '#7e95b8',
+};
+
+/* ══════════════════════════════════
+   1. MARKET SIZE — LINE CHART
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-market'), {
+  type: 'line',
+  data: {
+    labels: ['2010','2012','2014','2016','2018','2020','2022','2024','2026E','2028E','2030E','2032E','2035E'],
+    datasets: [{
+      label: 'Total Market (USD B)',
+      data: [11.7,16.0,22.9,31.1,42.1,52.6,67.1,87.9,108.4,136.8,192.4,247.1,340.5],
+      borderColor: C.cyan, backgroundColor: C.cyan10,
+      borderWidth: 2, tension: 0.4, fill: true,
+      pointRadius: 3, pointBackgroundColor: C.cyan,
+    },{
+      label: 'Forecast',
+      data: [null,null,null,null,null,null,null,87.9,108.4,136.8,192.4,247.1,340.5],
+      borderColor: C.cyan, borderDash: [4,4],
+      backgroundColor: 'transparent',
+      borderWidth: 1.5, tension: 0.4, pointRadius: 0,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.04)' } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$'+v+'B' } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   2. SECTOR PIE
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-sector'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Electronics / Semi','Pharma / DDS','Composites','Energy','Cosmetics','Food & Agri','Environment','Other'],
+    datasets: [{
+      data: [22.1, 12.4, 18.6, 8.7, 6.9, 1.8, 6.0, 11.4],
+      backgroundColor: [C.cyan20,C.rose20,C.green20,C.amber20,C.violet20,
+                        'rgba(100,116,139,0.25)','rgba(20,184,166,0.2)','rgba(255,255,255,0.07)'],
+      borderColor: [C.cyan,C.rose,C.green,C.amber,C.violet,C.slate,'#14b8a6','rgba(255,255,255,0.2)'],
+      borderWidth: 1.5, hoverOffset: 8,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '65%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 8, padding: 10, font: {size:9} } },
+      tooltip: { callbacks: { label: ctx => ` $${ctx.parsed}B (${(ctx.parsed/87.9*100).toFixed(1)}%)` } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   3. REGIONAL GROUPED BAR
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-region'), {
+  type: 'bar',
+  data: {
+    labels: ['Asia-Pacific','North America','Europe','Latin America','MEA'],
+    datasets: [
+      { label: '2020', data: [22.4, 16.1, 10.2, 2.1, 1.8],
+        backgroundColor: C.cyan20, borderColor: C.cyan, borderWidth: 1 },
+      { label: '2024', data: [38.7, 25.8, 16.4, 3.9, 3.1],
+        backgroundColor: C.amber20, borderColor: C.amber, borderWidth: 1 },
+      { label: '2030E', data: [88.3, 56.4, 34.1, 8.7, 4.9],
+        backgroundColor: C.green20, borderColor: C.green, borderWidth: 1 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$'+v+'B' } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   4. PUBLICATIONS TREND
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-pubs'), {
+  type: 'bar',
+  data: {
+    labels: ['2010','2012','2014','2016','2018','2020','2022','2024'],
+    datasets: [{
+      label: 'Publications (×1000)',
+      data: [88, 118, 152, 188, 224, 258, 288, 312],
+      backgroundColor: ctx => {
+        const g = ctx.chart.ctx.createLinearGradient(0,0,0,200);
+        g.addColorStop(0, C.cyan20); g.addColorStop(1, C.cyan10);
+        return g;
+      },
+      borderColor: C.cyan, borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'K' } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   5. PATENTS BY COUNTRY
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-patents'), {
+  type: 'bar',
+  data: {
+    labels: ['China','USA','Germany','Japan','S. Korea','UK','France'],
+    datasets: [{
+      label: 'Patent Filings 2024 (×1000)',
+      data: [148.2, 85.4, 28.1, 26.2, 18.9, 12.3, 10.8],
+      backgroundColor: [C.rose20,C.cyan20,C.amber20,C.green20,C.violet20,'rgba(100,116,139,0.2)','rgba(20,184,166,0.2)'],
+      borderColor:     [C.rose, C.cyan, C.amber, C.green, C.violet, C.slate, '#14b8a6'],
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'K' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   6. FUNDING DOUGHNUT
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-funding'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Government (US)','Government (EU)','Government (China)','Private / VC','Industry R&D'],
+    datasets: [{
+      data: [4.2, 3.1, 6.8, 3.6, 5.4],
+      backgroundColor: [C.cyan20,C.green20,C.rose20,C.amber20,C.violet20],
+      borderColor: [C.cyan,C.green,C.rose,C.amber,C.violet],
+      borderWidth: 1.5,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '60%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 8, font:{size:8}, padding:8 } },
+      tooltip: { callbacks: { label: ctx => ` $${ctx.parsed}B` } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   7. RADAR — PROPERTY PROFILES
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-radar'), {
+  type: 'radar',
+  data: {
+    labels: ['Strength','Conductivity','Thermal','Surface Area','Flexibility','Biocompat.'],
+    datasets: [
+      { label: 'Graphene',   data: [98,90,99,68,80,40], borderColor:C.cyan,   backgroundColor:C.cyan10,   borderWidth:1.5, pointRadius:3 },
+      { label: 'SWCNT',      data: [95,92,88,52,75,50], borderColor:C.green,  backgroundColor:C.green10,  borderWidth:1.5, pointRadius:3 },
+      { label: 'AuNPs',      data: [22,85,60,38,10,90], borderColor:C.amber,  backgroundColor:C.amber10,  borderWidth:1.5, pointRadius:3 },
+      { label: 'MXene',      data: [42,88,44,18,55,35], borderColor:C.violet, backgroundColor:C.violet10, borderWidth:1.5, pointRadius:3 },
+      { label: 'MOF (NU-110)',data:[5,2,8,100,10,65],   borderColor:C.rose,   backgroundColor:C.rose10,   borderWidth:1.5, pointRadius:3 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, padding:10, font:{size:9} } } },
+    scales: {
+      r: {
+        grid: { color: 'rgba(255,255,255,0.06)' },
+        angleLines: { color: 'rgba(255,255,255,0.06)' },
+        pointLabels: { font: { size: 9 }, color: '#6b7a99' },
+        ticks: { display: false }, min: 0, max: 100,
+      }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   8. SCATTER — STRENGTH vs CONDUCTIVITY
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-scatter'), {
+  type: 'bubble',
+  data: {
+    datasets: [
+      { label:'Graphene',    data:[{x:130, y:10, r:9}],  backgroundColor:C.cyan20,   borderColor:C.cyan,   borderWidth:1.5 },
+      { label:'SWCNT',       data:[{x:100, y:10000, r:8}],backgroundColor:C.green20,  borderColor:C.green,  borderWidth:1.5 },
+      { label:'Copper (bulk)',data:[{x:0.21,y:59600,r:12}],backgroundColor:'rgba(100,116,139,0.15)',borderColor:C.slate,borderWidth:1.5 },
+      { label:'Gold NPs',    data:[{x:0.6, y:45000,r:10}],backgroundColor:C.amber20,  borderColor:C.amber,  borderWidth:1.5 },
+      { label:'MXene',       data:[{x:15,  y:5000, r:6}], backgroundColor:C.violet20, borderColor:C.violet, borderWidth:1.5 },
+      { label:'Steel (bulk)',data:[{x:0.83, y:1.4, r:14}],backgroundColor:'rgba(255,255,255,0.05)',borderColor:'rgba(255,255,255,0.2)',borderWidth:1 },
+      { label:'h-BN (1L)',   data:[{x:70,  y:0,   r:5}],  backgroundColor:C.rose20,   borderColor:C.rose,   borderWidth:1.5 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels:{ boxWidth:8, padding:8, font:{size:8} } },
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: σ=${ctx.parsed.x} GPa, σ_e=${ctx.parsed.y} S/m` } }
+    },
+    scales: {
+      x: { title: { display:true, text:'Tensile Strength (GPa)', color:'#6b7a99', font:{size:9} },
+           grid: { color:'rgba(255,255,255,0.04)' }, type:'logarithmic' },
+      y: { title: { display:true, text:'Elec. Conductivity (S/m)', color:'#6b7a99', font:{size:9} },
+           grid: { color:'rgba(255,255,255,0.04)' }, type:'logarithmic' }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   9. PHARMA APPROVALS
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-pharma'), {
+  type: 'bar',
+  data: {
+    labels: ['95-99','00-04','05-09','10-14','15-19','20-24'],
+    datasets: [
+      { label: 'FDA Approvals',  data:[2,4,6,11,18,26], backgroundColor:C.rose20,  borderColor:C.rose,  borderWidth:1 },
+      { label: 'EMA Approvals',  data:[1,2,3,7,12,19],  backgroundColor:C.cyan20,  borderColor:C.cyan,  borderWidth:1 },
+      { label: 'Clinical Trials',data:[8,24,52,95,188,310], backgroundColor:C.amber20,borderColor:C.amber,borderWidth:1, yAxisID:'y2' },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position:'top', labels:{boxWidth:8,font:{size:9}} } },
+    scales: {
+      x: { grid:{ display:false } },
+      y: { grid:{ color:'rgba(255,255,255,0.04)' }, title:{display:true,text:'Approvals',color:'#6b7a99',font:{size:9}} },
+      y2:{ position:'right', grid:{ display:false }, title:{display:true,text:'Trials',color:'#f59e0b',font:{size:9}}, ticks:{color:C.amber} }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   10. ENERGY PERFORMANCE GAINS
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-energy'), {
+  type: 'bar',
+  data: {
+    labels: ['Li-ion capacity\n(graphene anode)','Solar cell PCE\n(perovskite)','Supercapacitor\nenergy density','Fuel cell\ncatalyst activity','H₂ storage\n(MOF)','Thermoelectric\nfigure of merit'],
+    datasets: [{
+      label: '% improvement vs 2015 baseline',
+      data: [187, 112, 340, 88, 215, 145],
+      backgroundColor: [C.cyan20,C.amber20,C.green20,C.rose20,C.violet20,'rgba(20,184,166,0.2)'],
+      borderColor:     [C.cyan,  C.amber,  C.green,  C.rose,  C.violet, '#14b8a6'],
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis:'y',
+    plugins: { legend:{ display:false } },
+    scales: {
+      x: { grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ callback:v => '+'+v+'%' } },
+      y: { grid:{ display:false } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   11. REGULATORY BAR
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-regulatory'), {
+  type: 'bar',
+  data: {
+    labels: ['European Union','United States','China','Japan','South Korea','Brazil','India'],
+    datasets: [
+      { label:'% with binding OELs',    data:[28,22,15,18,20,6,4],   backgroundColor:C.rose20,   borderColor:C.rose,  borderWidth:1 },
+      { label:'% with guidance only',   data:[52,41,38,44,39,28,19],  backgroundColor:C.amber20,  borderColor:C.amber, borderWidth:1 },
+      { label:'% no specific nano-rule', data:[20,37,47,38,41,66,77], backgroundColor:'rgba(100,116,139,0.15)',borderColor:C.slate,borderWidth:1 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{ position:'top', labels:{boxWidth:8,font:{size:9}} } },
+    scales: {
+      x: { stacked:true, grid:{ display:false } },
+      y: { stacked:true, grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ callback:v=>v+'%' }, max:100 }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   12. TOXICITY DISTRIBUTION
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-tox'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Low / Negligible','Moderate concern','High concern (pulmonary)','Genotoxic markers','Ecotoxic (aquatic)','Insufficient data'],
+    datasets: [{
+      data: [38.4, 28.1, 12.7, 8.3, 6.2, 6.3],
+      backgroundColor: [C.green20,C.amber20,C.rose20,C.violet20,C.cyan20,'rgba(100,116,139,0.15)'],
+      borderColor:     [C.green,  C.amber,  C.rose,  C.violet,  C.cyan,  C.slate],
+      borderWidth: 1.5,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout:'60%',
+    plugins: {
+      legend:{ position:'right', labels:{ boxWidth:8, font:{size:8}, padding:8 } },
+      tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed}% of ${(ctx.parsed*28.4).toFixed(0)} materials` } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   13. FORECAST STACKED AREA
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-forecast'), {
+  type: 'line',
+  data: {
+    labels: ['2025','2026','2027','2028','2029','2030','2031','2032','2033','2034','2035'],
+    datasets: [
+      { label:'Electronics', data:[25.1,28.4,32.1,37.2,43.0,51.2,59.4,68.8,80.1,93.2,109.4],
+        borderColor:C.cyan, backgroundColor:C.cyan10, fill:true, tension:0.4, borderWidth:1.5, pointRadius:0 },
+      { label:'Pharma & DDS', data:[14.8,17.6,21.0,25.2,30.1,36.4,43.4,52.1,62.4,74.8,89.8],
+        borderColor:C.rose, backgroundColor:C.rose10, fill:true, tension:0.4, borderWidth:1.5, pointRadius:0 },
+      { label:'Energy', data:[10.2,12.8,16.1,20.4,25.7,32.8,40.7,50.4,62.7,77.8,96.6],
+        borderColor:C.amber, backgroundColor:C.amber10, fill:true, tension:0.4, borderWidth:1.5, pointRadius:0 },
+      { label:'Composites', data:[21.4,23.8,26.7,30.1,33.9,38.4,43.5,49.2,55.8,63.2,71.6],
+        borderColor:C.green, backgroundColor:C.green10, fill:true, tension:0.4, borderWidth:1.5, pointRadius:0 },
+      { label:'Other Sectors', data:[26.3,29.8,34.2,39.4,45.2,52.4,60.8,70.8,82.2,95.6,111.2],
+        borderColor:C.violet, backgroundColor:C.violet10, fill:true, tension:0.4, borderWidth:1.5, pointRadius:0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins:{ legend:{ position:'bottom', labels:{boxWidth:8,padding:10,font:{size:9}} } },
+    scales:{
+      x:{ grid:{ color:'rgba(255,255,255,0.04)' } },
+      y:{ grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ callback:v=>'$'+v+'B' } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   14. VC INVESTMENT
+══════════════════════════════════ */
+new Chart(document.getElementById('chart-vc'), {
+  type: 'bar',
+  data: {
+    labels: ['2016','2017','2018','2019','2020','2021','2022','2023','2024'],
+    datasets: [
+      { label:'Nano-medicine',   data:[0.8,1.1,1.6,2.1,2.8,4.7,3.9,3.4,4.2], backgroundColor:C.rose20,   borderColor:C.rose,  borderWidth:1 },
+      { label:'Nano-energy',     data:[0.4,0.6,0.9,1.4,1.8,3.1,2.7,2.9,3.8], backgroundColor:C.amber20,  borderColor:C.amber, borderWidth:1 },
+      { label:'Nano-electronics',data:[0.6,0.9,1.4,1.9,2.4,4.2,3.6,3.1,4.1], backgroundColor:C.cyan20,   borderColor:C.cyan,  borderWidth:1 },
+      { label:'Nano-materials',  data:[0.3,0.4,0.6,0.9,1.1,2.0,1.8,1.7,2.3], backgroundColor:C.violet20, borderColor:C.violet,borderWidth:1 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins:{ legend:{ position:'top', labels:{boxWidth:8,font:{size:9}} } },
+    scales:{
+      x:{ stacked:true, grid:{ display:false } },
+      y:{ stacked:true, grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ callback:v=>'$'+v+'B' } }
+    }
+  }
+});
+
+/* ══════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════ */
+const ro = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('revealed');ro.unobserve(e.target);}
+  });
+}, {threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ══════════════════════════════════
+   CHIP TOGGLE
+══════════════════════════════════ */
+document.querySelectorAll('.mat-chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    if(c.classList.contains('active')){
+      c.classList.remove('active');
+      ['c-cyan','c-green','c-amber','c-violet','c-rose'].forEach(cl=>c.classList.remove(cl));
+    }
+  });
+});
+</script>
+</body>
+</html>
